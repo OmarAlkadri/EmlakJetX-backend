@@ -10,7 +10,6 @@ import serverConfig from '@config/server.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import databaseConfig from '@config/database.config';
 import { injectDBModules } from './injectDBModules';
-import { Redis } from 'ioredis';
 import { MongooseConfigService } from './mongooseConfigService';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -40,19 +39,7 @@ import { join } from 'path';
     }),
     injectDBModules,
   ],
-  providers: [AppService,
-    {
-      provide: 'REDIS_CLIENT',
-      useFactory: (configService: ConfigService) => {
-        return new Redis({
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT'),
-        });
-      },
-      inject: [ConfigService],
-    }
-  ],
-  exports: ['REDIS_CLIENT'],
+  providers: [AppService],
   controllers: [AppController],
 })
 export class AppModule { }

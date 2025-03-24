@@ -18,12 +18,12 @@ export class SeederService {
       };    
     console.log('✅ Seeding database...');
 
-    //await this.userRepository.deleteMany();
+    await this.userRepository.deleteMany();
     await this.listingRepository.deleteMany();
     console.log('✅ Cleared old data');
       const hashedPassword = await bcrypt.hash('12345678', 10);
 
-/*    const users = Array.from({ length: 10 }, () => {
+    const users = Array.from({ length: 10 }, () => {
         const data = Object.values(ERoles)[Math.floor(Math.random() * Object.values(ERoles).length)];
         return {
           name: faker.person.fullName(),
@@ -35,9 +35,9 @@ export class SeederService {
           ERoles: [data,Object.values(ERoles)[Math.floor(Math.random() * Object.values(ERoles).length)]],
         };
       });
-      */
+      
 
-    //const insertedUsers = await this.userRepository.insertMany(users);
+    const insertedUsers = await this.userRepository.insertMany(users);
     console.log('✅ Users inserted'); 
 
     const listings = Array.from({ length: 50 }, () => ({
@@ -50,7 +50,7 @@ export class SeederService {
       rooms: faker.number.int({ min: 1, max: 6 }),
       area: faker.number.float({ min: 50, max: 300 }),
       images: [faker.image.url(), faker.image.url()],
-      userId: '67e1df75775f8fbe603d88fd',
+      userId: insertedUsers[Math.floor(Math.random() * insertedUsers.length)]._id,
       reviews: [],
     }));
 

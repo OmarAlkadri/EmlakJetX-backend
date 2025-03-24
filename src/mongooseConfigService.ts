@@ -28,11 +28,11 @@ export class MongooseConfigService implements MongooseOptionsFactory {
 
 
     createMongooseOptions(): MongooseModuleOptions {
-        const url = `mongodb://${this.config.get<string>('MONGODB_HOST')}:${this.config.get<string>('MONGODB_PORT')}/${this.config.get<string>('MONGODB_DB_Name')}`;
+        const url = `mongodb+srv://baraabaraaalkadri111:LTl1eZVghNPBPJzR@cluster0.ql4sh.mongodb.net/ConfigManagerDB?retryWrites=true&w=majority&appName=Cluster0/nestjs_db`;
         return {
             uri: url,
         };
-    }
+    } 
 
     getConnection(): DynamicModule {
         return this.connection;
