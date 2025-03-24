@@ -4,17 +4,18 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-# Install Dependencies using pnpm
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile --production
 
-# Copy rest of the code to container
 COPY . .
 
-# Build the TypeScript code use webpack
-RUN pnpm run build
+RUN mkdir -p dist
 
-# Expose the port the app runs on and the debug port
-EXPOSE 3031 9229
+RUN pnpm run build || (echo "Build failed!" && exit 1)
 
-# Run the API on Nodemon with debug enabled
-CMD ["pnpm", "run", "start:prod"]
+RUN test -f dist/main.js || (echo "dist/main.js is missing!" && exit 1)
+
+ENV PORT=3030
+
+EXPOSE 3030
+
+CMD ["node", "dist/main.js"]
