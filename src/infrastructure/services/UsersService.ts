@@ -51,39 +51,46 @@ export class UsersService {
   }
 
   async addFavorite(userId: string, listingId: Types.ObjectId): Promise<User> {
-
     const user = await this.userRepository.findById(userId);
     if (!user) throw new NotFoundException('User not found');
-
-    if (!user.favorites.includes(listingId)) {
-      user.favorites.push(listingId);
-      await user.save();
+  
+    const updatedUser = await this.userRepository.findByIdAndUpdate(
+      userId,
+      { $addToSet: { favorites: listingId } },
+      { new: true }
+    );
+  
+    if (!updatedUser) {
+      throw new BadRequestException('Error adding to favorites');
     }
-
-    return user;
+  
+    return updatedUser;
   }
+  
 
   async removeFavorite(userId: string, listingId: Types.ObjectId): Promise<User> {
     try {
-  
       const user = await this.userRepository.findById(userId);
-      if (!user) throw new NotFoundException('User not found');
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
   
-      const data = [...user.favorites]
-      const result = data.filter(
-        (id) => {
-          return id.toString() !== listingId.toString()
-        },
+      const updatedUser = await this.userRepository.findByIdAndUpdate(
+        userId,
+        { $pull: { favorites: listingId } },
+        { new: true } 
       );
-      user.favorites = result
-      await user.save();
   
-      return user;
+      if (!updatedUser) {
+        throw new BadRequestException('Error removing favorite');
+      }
+  
+      return updatedUser;
     } catch (error) {
-      throw new BadRequestException('Error signing in');
+      throw new BadRequestException('Error removing favorite');
     }
-
   }
+  
 
   async getFavorites(userId: string): Promise<Listing[]> {
     const user = await (

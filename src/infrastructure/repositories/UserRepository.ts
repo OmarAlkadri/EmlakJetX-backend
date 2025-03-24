@@ -37,6 +37,10 @@ export class UserRepository implements IRepository<User> {
     async findAll(): Promise<User[]> {
         return this.userModel.find().exec();
     }
+    
+    async findByIdAndUpdate(userId: string, update: any, options: any): Promise<User | null> {
+      return await this.userModel.findByIdAndUpdate(userId, update, options);
+    }
 
     async create(createCatDto: any): Promise<User | undefined> {
         try {
