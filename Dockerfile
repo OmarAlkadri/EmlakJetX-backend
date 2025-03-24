@@ -17,4 +17,4 @@ RUN pnpm run build
 EXPOSE 3031 9229
 
 # Run the API on Nodemon with debug enabled
-CMD ["pnpm", "run", "start:dev"]
+CMD ["pnpm", "run", "start:prod"]
