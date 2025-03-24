@@ -1,0 +1,39 @@
+{
+   "compilerOptions": {
+      "module": "commonjs",
+      "declaration": true,
+      "removeComments": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "target": "ES2022", // Updated for better modern library compatibility
+      "moduleResolution": "node", // Ensures proper resolution of Node.js modules
+      "strict": true, // Use TypeScript strict mode for better type safety
+      "sourceMap": true,
+      "outDir": "./dist",
+      "baseUrl": "./",
+      "incremental": true,
+      "skipLibCheck": true, // Keeps compatibility with external libraries
+      "strictNullChecks": false,
+      "noImplicitAny": false,
+      "strictBindCallApply": false,
+      "forceConsistentCasingInFileNames": false,
+      "noFallthroughCasesInSwitch": false,
+      "paths": {
+         "@config/*": [
+            "config/*"
+         ]
+      },
+      "esModuleInterop": true
+   },
+   "include": [
+      "src/**/*",
+      "config/**/*"
+   ],
+   "exclude": [
+      "node_modules",
+      "dist",
+      "test",
+      "**/*.spec.ts"
+   ]
+}

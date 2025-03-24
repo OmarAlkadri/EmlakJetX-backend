@@ -1,0 +1,9 @@
+# development.yaml
+app:
+  port: 3000
+database:
+  host: localhost
+  port: 5432
+  user: devuser
+  password: devpassword
+  database: dev_db

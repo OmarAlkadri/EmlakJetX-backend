@@ -1,0 +1,148 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
+input CreateListingDto {
+  DateofPublication: DateTime!
+  area: Float!
+  city: String!
+  description: String!
+  district: String!
+  images: [String!]
+  price: Float!
+  reviews: [ReviewInput!]
+  rooms: Int!
+  title: String!
+  userId: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""User roles in the system"""
+enum ERoles {
+  Admin
+  Employee
+  Field
+  Manager
+  Staff
+  Supervisor
+}
+
+type Listing {
+  DateofPublication: DateTime!
+  _id: ID!
+  area: Float!
+  averageRating: Float
+  city: String!
+  description: String!
+  district: String!
+  images: [String!]
+  price: Float!
+  reviews: [Review!]
+  rooms: Int!
+  title: String!
+  userId: User!
+}
+
+type ListingsWithPagination {
+  currentPage: Int!
+  listings: [Listing!]!
+  totalCount: Int!
+  totalPages: Int!
+  totallistingCount: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  addFavorite(listingId: ObjectID!): User!
+  addReview(comment: String!, listingId: String!, rating: Float!): Listing!
+  createListing(data: CreateListingDto!): Listing!
+  deleteListing(id: String!): Boolean!
+  login(data: LoginInput!): AuthResponse!
+  register(data: RegisterInputDto!): AuthResponse!
+  removeFavorite(listingId: ObjectID!): User!
+  removeReview(listingId: String!, reviewId: String!): Listing!
+  updateListing(_id: String!, data: UpdateListingDto!): Listing!
+  uploadImage(file: Upload!): String!
+  uploadImages(files: [Upload!]!): [String!]!
+}
+
+"""
+A field whose value conforms with the standard mongodb object ID as described here: https://docs.mongodb.com/manual/reference/method/ObjectId/#ObjectId. Example: 5e5677d71bdc2ae76344968c
+"""
+scalar ObjectID
+
+type Query {
+  getAllListings: [Listing!]!
+  getAllUsers: [User!]!
+  getFavorite(listingId: ObjectID!): Listing
+  getFavorites: [Listing!]!
+  getListing(id: String!): Listing
+  getUserById(id: String!): User
+  me: User!
+  paginatedListings(city: String, endDate: DateTime, limit: Int! = 10, page: Int! = 1, priceMax: Float, priceMin: Float, rooms: Float, startDate: DateTime, userId: String): ListingsWithPagination!
+  searchListings(city: String, endDate: DateTime, limit: Float! = 10, page: Float! = 1, priceMax: Float, priceMin: Float, startDate: DateTime, title: String, userId: String): ListingsWithPagination!
+}
+
+input RegisterInputDto {
+  ERoles: [ERoles!] = [Employee]
+  EUserType: ERoles! = Employee
+  email: String!
+  name: String!
+  password: String!
+  phoneNumber: String
+  registrationNumber: String
+}
+
+type Review {
+  comment: String!
+  rating: Int!
+  userId: String!
+}
+
+input ReviewInput {
+  comment: String!
+  rating: Int!
+  userId: String!
+}
+
+input UpdateListingDto {
+  DateofPublication: DateTime
+  area: Float
+  city: String
+  description: String
+  district: String
+  images: [String!]
+  price: Float
+  reviews: [ReviewInput!]
+  rooms: Int
+  title: String
+  userId: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  ERoles: [ERoles!]
+  EUserType: ERoles!
+  _id: ID!
+  email: String!
+  favorites: [ID!]
+  name: String!
+  password: String!
+  phoneNumber: String
+  registrationNumber: String
+}
