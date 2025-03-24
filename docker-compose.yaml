@@ -5,7 +5,7 @@ services:
     container_name: redis
     image: redis:latest
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis_data:/data
 
@@ -14,7 +14,7 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - mongo_data:/data/db
 
@@ -24,15 +24,15 @@ services:
       dockerfile: Dockerfile
       context: .
     ports:
-      - "3031:3031"
-      - "9229:9229" # Debugging port
+      - '3030:3030'
+      - '9229:9229'
     environment:
       MONGODB_HOST: mongodb
       REDIS_HOST: redis
-    command: sh -c "pnpm run start:debug" # Start app with debugging
+    command: sh -c "pnpm run start:debug"
     volumes:
       - ./src:/app/src
-      - ./node_modules:/app/node_modules # Mount node_modules to avoid conflicts
+      - ./node_modules:/app/node_modules
     restart: always
     depends_on:
       - mongodb
