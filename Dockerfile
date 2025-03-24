@@ -1,17 +1,11 @@
-FROM node:22.13.0-alpine3.20
+FROM node:20-alpine
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Setting Working Directory
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install --frozen-lockfile
-
 
 # Install Dependencies using pnpm
-RUN pnpm install
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # Copy rest of the code to container
 COPY . .
@@ -23,4 +17,4 @@ RUN pnpm run build
 EXPOSE 3031 9229
 
 # Run the API on Nodemon with debug enabled
-CMD ["node", "--max-old-space-size=4096", "node_modules/.bin/pnpm", "run", "start:dev"]
+CMD ["pnpm", "run", "start:dev"]
