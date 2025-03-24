@@ -4,13 +4,13 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN npm install -g pnpm && pnpm install --frozen-lockfile --prod
+RUN npm install -g pnpm @nestjs/cli && pnpm install --frozen-lockfile
 
 COPY . .
 
 RUN mkdir -p dist
 
-RUN pnpm run build || (cat /app/dist/main.js 2>/dev/null || echo "Build failed! Check errors." && exit 1)
+RUN pnpm run build || (echo "Build failed! Check errors." && exit 1)
 
 RUN test -f dist/main.js || (echo "dist/main.js is missing!" && exit 1)
 
