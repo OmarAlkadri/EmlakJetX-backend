@@ -6,8 +6,9 @@ RUN npm install -g pnpm
 # Setting Working Directory
 WORKDIR /app
 
-# Copying only package.json
-COPY package.json ./
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install --frozen-lockfile
+
 
 # Install Dependencies using pnpm
 RUN pnpm install

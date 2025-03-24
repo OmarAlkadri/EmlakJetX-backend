@@ -36,4 +36,3 @@ lerna-debug.log*
 
 build
 dist
-pnpm-lock.yaml
