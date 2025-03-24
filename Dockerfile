@@ -22,4 +22,4 @@ RUN pnpm run build
 EXPOSE 3031 9229
 
 # Run the API on Nodemon with debug enabled
-CMD ["pnpm","run", "start:dev"]
+CMD ["node", "--max-old-space-size=4096", "node_modules/.bin/pnpm", "run", "start:dev"]

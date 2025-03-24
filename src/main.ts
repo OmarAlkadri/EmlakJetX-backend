@@ -8,6 +8,7 @@ import fastifyMultipart from '@fastify/multipart';
 import fastifyRateLimit from '@fastify/rate-limit';
 import fastifyCompress from '@fastify/compress';
 import fastifyCors from '@fastify/cors';
+import { SeederService } from './infrastructure/services/SeederService ';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -21,38 +22,33 @@ async function bootstrap() {
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.register(fastifyHelmet as any, { contentSecurityPolicy: false });
+  await app.register(fastifyHelmet, { contentSecurityPolicy: false });
 
-  await app.register(fastifyMultipart as any, {
+  await app.register(fastifyMultipart , {
     attachFieldsToBody: true,
     limits: {
       fileSize: 100 * 1024 * 1024,
-      files: 5,
+      files: 10,
     },
   });
 
-  await app.register(fastifyCompress as any, { encodings: ['gzip', 'deflate'] });
+  await app.register(fastifyCompress, { encodings: ['gzip', 'deflate'] });
 
-  await app.register(fastifyRateLimit as any, {
+  await app.register(fastifyRateLimit, {
     max: 100,
     timeWindow: '1 minute',
   });
 
-  await app.register(fastifyCors as any, {
-    origin: ['http://localhost:3000', 'https://frontend.com'],
+  await app.register(fastifyCors, {
+    origin: ['http://localhost:3000', 'https://emlakjetx-backend-1.onrender.com/'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-apollo-operation-name', 'apollo-require-preflight'],
     credentials: true,
   });
 
-  const fastifyInstance = app.getHttpAdapter().getInstance();
-  fastifyInstance.addHook('preHandler', async (req, reply) => {
-    if (req.isMultipart()) {
-      req.body = await req.file();
-    }
-  });
 
-
+  const seeder = app.get(SeederService);
+  await seeder.seedDatabase();
   await app.listen({ port, host: '0.0.0.0' }, (err, address) => {
     if (err) {
       console.error('Error starting server:', err);

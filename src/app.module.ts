@@ -16,7 +16,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { GraphQLUpload } from 'graphql-upload-minimal';
 
 @Module({
   imports: [//ConfigModule.register({ folder: './config' }),
@@ -32,9 +31,7 @@ import { GraphQLUpload } from 'graphql-upload-minimal';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       csrfPrevention: false,
-      resolvers:{
-        Upload:GraphQLUpload
-      }
+      introspection: true
     }),    
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

@@ -17,18 +17,12 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload-minimal';
 import { FilterQuery, Types } from 'mongoose';
 import { Public } from '../../../presentation/decorators/public.decorator';
 import {  UsePipes, ValidationPipe } from '@nestjs/common';
+import { createWriteStream } from 'fs';
+import { join } from 'path';
 
 @Resolver(() => Listing)
 export class ListingsResolver {
   constructor(private listingsService: ListingService) {}
-
-  @Mutation(() => String)
-  async uploadImage(
-    @Args({ name: 'file', type: () => GraphQLUpload }) file: Promise<FileUpload>,
-  ): Promise<string> {
-    const uploadedFile = await file;
-    return this.listingsService.uploadImage(uploadedFile);
-  }
 
 @Query(() => ListingsWithPagination)
 async paginatedListings(
@@ -140,9 +134,9 @@ async searchListings(
   ) {
     return this.listingsService.addReview(
       listingId,
-      ctx.req.user.id,
+      ctx.req.user.userId,
       comment,
-      rating,
+      rating, 
     );
   }
 
@@ -153,19 +147,6 @@ async searchListings(
   ) {
     return this.listingsService.removeReview(listingId, reviewId);
   }
-
-
-  @Mutation(() => [String])
-  async uploadImages(
-    @Args({ name: 'files', type: () => [GraphQLUpload] }) files: Promise<FileUpload>[],
-  ): Promise<string[]> {
-    const uploadedFiles = await Promise.all(files);
-  
-    return Promise.all(uploadedFiles.map(async (file) => {
-      return this.listingsService.uploadImage(file);
-    }));
-  }
-  
 
   
   @ResolveField(() => Int, { nullable: true })

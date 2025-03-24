@@ -72,5 +72,15 @@ export class UserRepository implements IRepository<User> {
       async getFavorites(userId: string) {
         return this.userModel.findById(userId).populate('favorites');
       }
+
+
+      async deleteMany(): Promise<void> {
+        await this.userModel.deleteMany({});
+      }
+      
+      async insertMany(users: any[]): Promise<any[]> {
+        return this.userModel.insertMany(users);
+      }
+      
       
 }

@@ -9,16 +9,13 @@ import { UpdateListingDto } from '../../application/dtos/UpdateListingDto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Listing, ListingDocument } from 'src/domain/entities/Listing';
 import { FilterQuery, Model, Types } from 'mongoose';
-import { CloudinaryConfig } from '../../config/cloudinary.config';
-import { FastifyRequest } from 'fastify';
-import { IRepository } from 'src/domain/repositories';
+import { IRepository } from '../../domain/repositories';
 import { FileUpload } from 'graphql-upload-minimal';
 
 @Injectable()
 export class ListingRepository implements IRepository<Listing> {
   constructor(
     @InjectModel(Listing.name) private listingModel: Model<ListingDocument>,
-    private cloudinary: CloudinaryConfig,
   ) {}
 
   async create(data: CreateListingDto) {
@@ -89,11 +86,6 @@ export class ListingRepository implements IRepository<Listing> {
     };
   }
   
-
-  async uploadImage(request: FileUpload) {
-    return await this.cloudinary.uploadImage(request);
-  }
-
   async findListings(filter: FilterQuery<ListingDocument>) {
     return this.listingModel.find(filter).exec();
   }
@@ -112,4 +104,14 @@ export class ListingRepository implements IRepository<Listing> {
     if (!updatedListing) throw new NotFoundException('Listing not found');
     return updatedListing;
   }
+
+
+  async deleteMany(): Promise<void> {
+    await this.listingModel.deleteMany({});
+  }
+  
+  async insertMany(listings: CreateListingDto[]): Promise<any[]> {
+    return this.listingModel.insertMany(listings);
+  }
+  
 }

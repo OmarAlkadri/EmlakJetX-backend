@@ -66,7 +66,7 @@ export class Listing extends Document{
 
 @ObjectType()
 export class Review extends Document{
-  @Field()
+  @Field(() => ID) 
   userId: string;
 
   @Field()

@@ -4,17 +4,13 @@ import { UpdateListingDto } from '../../application/dtos/UpdateListingDto';
 import { Listing, ListingDocument } from '../../domain/entities/Listing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ListingRepository } from '../repositories/ListingRepository';
-import { FastifyRequest } from 'fastify';
-import { CloudinaryConfig } from '../../config/cloudinary.config';
 import { FilterQuery } from 'mongoose';
 import sanitize from 'mongo-sanitize';
-import { FileUpload } from 'graphql-upload-minimal';
 
 @Injectable()
 export class ListingService {
   constructor(
     private readonly listingRepository: ListingRepository,
-    private cloudinary: CloudinaryConfig,
   ) {}
 
   async create(createListingDto: CreateListingDto): Promise<Listing> {
@@ -97,10 +93,6 @@ export class ListingService {
     }
   }
 
-  async uploadImage(request: FileUpload) {
-    return await this.cloudinary.uploadImage(request);
-  }
-
   async addReview(
     listingId: string,
     userId: string,
@@ -111,7 +103,7 @@ export class ListingService {
       sanitize(listingId), 
       {
         $push: {
-          reviews: {
+          reviews: { 
             userId: sanitize(userId),
             comment: sanitize(comment),
             rating,

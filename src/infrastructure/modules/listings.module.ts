@@ -4,7 +4,6 @@ import { Listing, ListingSchema } from '../../domain/entities/Listing';
 import { ListingRepository } from '../repositories/ListingRepository';
 import { ListingService } from 'src/infrastructure/services/ListingService';
 import { ListingController } from 'src/presentation/controllers/ListingController';
-import { CloudinaryConfig } from 'src/config/cloudinary.config';
 import { ConfigModule } from '@nestjs/config';
 import { ListingsResolver } from 'src/presentation/graphql/resolvers/listings.resolver';
 
@@ -26,7 +25,6 @@ import { ListingsResolver } from 'src/presentation/graphql/resolvers/listings.re
   providers: [
     ListingRepository,
     ListingsResolver,
-    CloudinaryConfig,
     ListingService,
   ],
   exports: [ListingRepository, ListingService],

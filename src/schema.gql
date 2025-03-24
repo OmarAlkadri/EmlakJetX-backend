@@ -18,7 +18,7 @@ input CreateListingDto {
   reviews: [ReviewInput!]
   rooms: Int!
   title: String!
-  userId: String!
+  userId: ID!
 }
 
 """
@@ -75,8 +75,6 @@ type Mutation {
   removeFavorite(listingId: ObjectID!): User!
   removeReview(listingId: String!, reviewId: String!): Listing!
   updateListing(_id: String!, data: UpdateListingDto!): Listing!
-  uploadImage(file: Upload!): String!
-  uploadImages(files: [Upload!]!): [String!]!
 }
 
 """
@@ -109,13 +107,13 @@ input RegisterInputDto {
 type Review {
   comment: String!
   rating: Int!
-  userId: String!
+  userId: ID!
 }
 
 input ReviewInput {
   comment: String!
   rating: Int!
-  userId: String!
+  userId: ID!
 }
 
 input UpdateListingDto {
@@ -129,11 +127,8 @@ input UpdateListingDto {
   reviews: [ReviewInput!]
   rooms: Int
   title: String
-  userId: String
+  userId: ID
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 type User {
   ERoles: [ERoles!]

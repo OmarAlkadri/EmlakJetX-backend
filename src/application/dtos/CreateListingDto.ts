@@ -1,8 +1,10 @@
-import { Field, Float, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, ID, InputType, Int } from '@nestjs/graphql';
+import { Types } from 'mongoose';
+import { User } from '../../domain/entities';
 
 @InputType()
 export class ReviewInput {
-  @Field()
+  @Field(() => ID) 
   userId: string;
 
   @Field()
@@ -45,6 +47,6 @@ export class CreateListingDto {
   @Field(() => [ReviewInput], { nullable: true })
   reviews?: ReviewInput[];
 
-  @Field()
+  @Field(() => ID) 
   userId: string;
 }
