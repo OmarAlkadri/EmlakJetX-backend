@@ -35,6 +35,26 @@ export class SeederService {
           ERoles: [data,Object.values(ERoles)[Math.floor(Math.random() * Object.values(ERoles).length)]],
         };
       });
+
+      users.push({
+        name: faker.person.fullName(),
+        email: 'Admin@gamil.com',
+        password: hashedPassword,
+        phoneNumber: cleanPhoneNumber(faker.phone.number()),
+        registrationNumber: faker.string.uuid(),
+        EUserType: ERoles.Admin,
+        ERoles: [ERoles.Admin,ERoles.Manager],
+      })
+      
+      users.push({
+        name: faker.person.fullName(),
+        email: 'Employee@gamil.com',
+        password: hashedPassword,
+        phoneNumber: cleanPhoneNumber(faker.phone.number()),
+        registrationNumber: faker.string.uuid(),
+        EUserType: ERoles.Employee,
+        ERoles: [ERoles.Employee,ERoles.Staff],
+      })
       
 
     const insertedUsers = await this.userRepository.insertMany(users);
