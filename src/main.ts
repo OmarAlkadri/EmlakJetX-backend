@@ -40,7 +40,7 @@ async function bootstrap() {
   });
 
   await app.register(fastifyCors, {
-    origin: ['http://localhost:3000', 'https://emlakjetx-backend-1.onrender.com/'],
+    origin: ['http://localhost:3000', 'https://emlakjetx-backend-1.onrender.com/','https://emlak-jet-x-frontend.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-apollo-operation-name', 'apollo-require-preflight'],
     credentials: true,
