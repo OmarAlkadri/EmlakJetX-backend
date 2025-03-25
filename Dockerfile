@@ -4,18 +4,17 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN npm install -g pnpm @nestjs/cli && pnpm install --frozen-lockfile
+# Install Dependencies using pnpm
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
+# Copy rest of the code to container
 COPY . .
 
-RUN mkdir -p dist
+# Build the TypeScript code use webpack
+RUN pnpm run build
 
-RUN pnpm run build || (echo "Build failed! Check errors." && exit 1)
+# Expose the port the app runs on and the debug port
+EXPOSE 3031 9229
 
-RUN test -f dist/main.js || (echo "dist/main.js is missing!" && exit 1)
-
-ENV PORT=3031
-
-EXPOSE 3031
-
-CMD ["node", "dist/main.js"]
+# Run the API on Nodemon with debug enabled
+CMD ["pnpm", "run", "start:prod"]

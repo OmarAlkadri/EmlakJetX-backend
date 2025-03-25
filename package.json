@@ -11,7 +11,7 @@
       "start": "nest start --debug --inspect-brk=0.0.0.0:9229 --watch",
       "start:dev": "nest start --debug --inspect-brk=0.0.0.0:9229 --watch",
       "start:debug": "PORT=${PORT:-3030}  nest start --debug --watch --inspect-brk=0.0.0.0:9229",
-      "start:prod": "node dist/main",
+      "start:prod": "node dist/src/main",
       "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
       "test": "jest",
       "seed": "ts-node src/scripts/faker.ts",
