@@ -19,11 +19,13 @@ import { Public } from '../../../presentation/decorators/public.decorator';
 import {  UsePipes, ValidationPipe } from '@nestjs/common';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
+import { publicDecrypt } from 'crypto';
 
 @Resolver(() => Listing)
 export class ListingsResolver {
   constructor(private listingsService: ListingService) {}
 
+@Public()
 @Query(() => ListingsWithPagination)
 async paginatedListings(
   @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
