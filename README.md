@@ -4,6 +4,8 @@
 
 This is the backend application for the **Real Estate Listings** project, built with **NestJS** and **Fastify**. It provides a GraphQL API using **MongoDB** as the database.
 
+You can access the live project at: [https://emlakjetx-backend.onrender.com/](https://emlakjetx-backend.onrender.com/)
+
 ## Features
 
 - **User Authentication** (Register/Login using JWT)
